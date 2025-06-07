@@ -11,8 +11,11 @@ export class ServerApp {
     CronService.createJob(
       "*/5 * * * * *",
       () => {
-        const checkService = new CheckService();
         const url = "https://cursos.devtalles.com/";
+        const checkService = new CheckService(
+          () => console.log(`${url} is OK`),
+          error => console.error(error)          
+        );
         checkService.executeCheck(url)
     });
 
