@@ -12,7 +12,7 @@ export class FileSystemDataSource implements LogDataSource {
   private readonly logsPaths = {
     all: `${this.logPath}logs-all.log`,
     medium: `${this.logPath}logs-medium.log`,
-    hard: `${this.logPath}logs-high.log`
+    high : `${this.logPath}logs-high.log`
   } as const satisfies Record<LogPathsKey, `${typeof this.logPath}${string}.log`>;
 
   constructor() {
@@ -54,12 +54,16 @@ export class FileSystemDataSource implements LogDataSource {
   }
 
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
-    const actions= {
-      hard: ()=> this.getLogsFromFile(this.logsPaths.hard),
-      low: ()=> [], // 'low' logs are not saved in a file
-      medium:()=> this.getLogsFromFile(this.logsPaths.medium)
-    } as const satisfies Record<LogSeverityLevel, ()=> LogEntity[]>
+    const logRetrievers = {
+      high: () => this.getLogsFromFile(this.logsPaths.high),
+      low: () => [], // 'low' logs are not saved in a file
+      medium: () => this.getLogsFromFile(this.logsPaths.medium)
+    } as const satisfies Record<LogSeverityLevel, () => LogEntity[]>;
 
-    return actions[severityLevel]()
+    const retrieveLogs = logRetrievers[severityLevel] ?? (() => {
+      throw new Error(`Invalid severity level: ${severityLevel}`);
+    });
+
+    return retrieveLogs();
   }
 }
