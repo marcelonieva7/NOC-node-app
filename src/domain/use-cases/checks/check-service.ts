@@ -13,8 +13,8 @@ type ErrorCallback = (error: string) => void
 export class CheckService implements CheckServiceUseCase {
   constructor(
     private readonly logRepository: LogRepositoryAbstract,
-    private readonly successCallback: SuccessCallback,
-    private readonly errorCallback: ErrorCallback
+    private readonly successCallback?: SuccessCallback,
+    private readonly errorCallback?: ErrorCallback
   ) {
   }
 
@@ -30,13 +30,13 @@ export class CheckService implements CheckServiceUseCase {
         `Check service executed successfully: ${url}`
       );
       this.logRepository.saveLog(log)
-      this.successCallback()
+      this.successCallback && this.successCallback()
 
       return true;
     } catch (error) {
       const errorStr = 
         `Error on check service ${url} : ${error}`;
-      this.errorCallback(errorStr)
+      this.errorCallback && this.errorCallback(errorStr)
       const log = new LogEntity(
         LogSecurityLevelEnum.high,
         errorStr
