@@ -9,4 +9,12 @@ export class LogEntity {
   ) {
     this.createdAt = new Date();
   }
+
+  static fromJSON(json: string): LogEntity {
+    const data = JSON.parse(json);
+    const newLog = new LogEntity(data.level, data.message);
+    newLog.createdAt = new Date(data.createdAt);
+    
+    return newLog;
+  }
 }
