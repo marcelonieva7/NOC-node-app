@@ -7,6 +7,7 @@ type ErrorCallback = (error: string) => void
 
 export class CheckService implements CheckServiceUseCase {
   constructor(
+    private readonly logRepository: LogRepositoryAbstract,
     private readonly successCallback: SuccessCallback,
     private readonly errorCallback: ErrorCallback
   ) {
