@@ -2,5 +2,6 @@
 /dist
 /.vscode
 /logs
+/mongo_data
 
 .env
