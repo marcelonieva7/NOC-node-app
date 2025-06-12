@@ -1,19 +1,8 @@
 import { createTransport } from "nodemailer";
 import { envsPlugin } from "../../config/plugins/envs.plugin";
+import type { SendEmailOptions, BaseEmailService } from "../../domain/services/email.service";
 
-type SendEmailOptions = {
-  to: string | string[];
-  subject: string;
-  htmlBody: string;
-  attachments?: Attachment[]
-};
-
-type Attachment = {
-  filename: string;
-  path: string;
-}
-
-export class EmailService {
+export class EmailService implements BaseEmailService {
   private transporter = createTransport({
     service: envsPlugin.MAILER_SERVICE,
     auth: {
@@ -42,6 +31,7 @@ export class EmailService {
         },
       ]
     }
+    
     return this.sendEmail(emailOptions);
   }
 

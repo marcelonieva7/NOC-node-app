@@ -1,4 +1,4 @@
-import { EmailService } from "../../../presentation/email/email-service";
+import { BaseEmailService } from "../../services/email.service";
 import { LogEntity, LogSecurityLevelEnum } from "../../entities/log.entity";
 import { LogRepository } from "../../repositories/log.repository";
 
@@ -11,7 +11,7 @@ const origin = "send-logs-email.use-case.ts";
 export class SendLogsEmail implements SendLogsEmailUseCase {
   constructor(
     private readonly logRepository: LogRepository,
-    private readonly emailService: EmailService
+    private readonly emailService: BaseEmailService
   ) {}
 
   async execute(to: string | string[]) {
