@@ -1,7 +1,6 @@
 import type { LogDataSource } from "../../domain/datasources/log.datasource";
 import type{ LogEntity, LogSeverityLevel } from "../../domain/entities/log.entity";
 import { LogRepository as LogRepositoryAbstract } from "../../domain/repositories/log.repository";
-
 export class LogRepository implements LogRepositoryAbstract {
   constructor(private readonly logDataSource: LogDataSource) {}
 
@@ -10,6 +9,6 @@ export class LogRepository implements LogRepositoryAbstract {
   }
 
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
-    return this.getLogs(severityLevel)
+    return this.logDataSource.getLogs(severityLevel)
   }
 }
