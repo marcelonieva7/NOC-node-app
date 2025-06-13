@@ -39,6 +39,14 @@ export class LogEntity {
       !('createdAt' in data)
     ) return false;
     if (
+      typeof data.createdAt === 'object' &&
+      data.createdAt !== null &&
+      'toDateString' in data.createdAt &&
+      typeof data.createdAt.toDateString === 'function'
+    ) {
+      data.createdAt = data.createdAt.toDateString();      
+    }
+    if (
       typeof data.level !== 'string' ||
       typeof data.message !== 'string' ||
       typeof data.origin !=='string' ||
@@ -51,10 +59,15 @@ export class LogEntity {
 
   static fromJSON(json: string): LogEntity {
     const data = JSON.parse(json);
-    if (!LogEntity.validate(data)) {
-      throw new Error('Invalid log data');
+    
+    return LogEntity.fromObject(data);
+  }
+
+  static fromObject(obj: Record<string, any>): LogEntity {
+    if (!LogEntity.validate(obj)) {
+      throw new Error('Invalid log object data');
     }
-    const { level, message, createdAt, origin } = data;
+    const { level, message, createdAt, origin } = obj;
     const newLog = new LogEntity({
       level,
       message,
