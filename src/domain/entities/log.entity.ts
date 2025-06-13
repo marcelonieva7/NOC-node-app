@@ -50,16 +50,16 @@ export class LogEntity {
       }
     })
 
-    const dataLevel = (data as {level: string}).level
+    const dataLevel = (data as {level: string}).level.toLowerCase()
     if (!(dataLevel in LogSecurityLevelEnum)) {
       throw new Error(`Invalid log level: ${dataLevel}`);
     }
 
     const validatedData = data as( {createdAt: string | Date}& Omit<LogEntityOptions, 'createdAt'>)
-    const { createdAt, level, message, origin } = validatedData
+    const { createdAt, message, origin } = validatedData
 
     return {
-      level,
+      level: dataLevel as LogSeverityLevel,
       message,
       origin,
       createdAt: createdAt instanceof Date ? createdAt : new Date(createdAt)
