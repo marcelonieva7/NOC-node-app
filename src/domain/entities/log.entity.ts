@@ -29,51 +29,52 @@ export class LogEntity {
     this.message = message;
     this.origin = origin;
   }
+  
+  private static validateLog(data: unknown): LogEntity {
+    if (typeof data !== 'object' || data === null) {
+      throw new Error('Invalid log, data is not an object');
+    };
+    const logKeys:(keyof LogEntityOptions)[] = ['level', 'message', 'origin', 'createdAt'] as const;
+    logKeys.forEach(logKey => {
+      if (!(logKey in data)) {
+        throw new Error(`Missing key: ${logKey}`);
+      }
 
-  private static validate(data: unknown): data is LogEntityJson {
-    if (typeof data !== 'object' || data === null) return false;
-    if (
-      !('level' in data) ||
-      !('message' in data) ||
-      !('origin' in data) ||
-      !('createdAt' in data)
-    ) return false;
-    if (
-      typeof data.createdAt === 'object' &&
-      data.createdAt !== null &&
-      'toDateString' in data.createdAt &&
-      typeof data.createdAt.toDateString === 'function'
-    ) {
-      data.createdAt = data.createdAt.toDateString();      
+      const validKeysData = data as Record<typeof logKeys[number], unknown>
+      if (logKey === 'createdAt' && (validKeysData[logKey] instanceof Date)) {
+        return
+      }
+
+      if (typeof validKeysData[logKey] !== 'string') {
+        throw new Error(`Invalid type for key: ${logKey}, expected string, got ${typeof (data as Record<string, unknown>)[logKey]}`);
+      }
+    })
+
+    const dataLevel = (data as {level: string}).level
+    if (!(dataLevel in LogSecurityLevelEnum)) {
+      throw new Error(`Invalid log level: ${dataLevel}`);
     }
-    if (
-      typeof data.level !== 'string' ||
-      typeof data.message !== 'string' ||
-      typeof data.origin !=='string' ||
-      typeof data.createdAt !=='string'
-    ) return false;
-    if (!Object.keys(LogSecurityLevelEnum).includes(data.level)) return false;
 
-    return true;
-  }
+    const validatedData = data as( {createdAt: string | Date}& Omit<LogEntityOptions, 'createdAt'>)
+    const { createdAt, level, message, origin } = validatedData
 
-  static fromJSON(json: string): LogEntity {
-    const data = JSON.parse(json);
-    
-    return LogEntity.fromObject(data);
-  }
-
-  static fromObject(obj: Record<string, any>): LogEntity {
-    if (!LogEntity.validate(obj)) {
-      throw new Error('Invalid log object data');
-    }
-    const { level, message, createdAt, origin } = obj;
-    const newLog = new LogEntity({
+    return {
       level,
       message,
       origin,
-      createdAt: new Date(createdAt)
-    });
+      createdAt: createdAt instanceof Date ? createdAt : new Date(createdAt)
+    }
+  }
+
+  static fromJSON(json: string): LogEntity {
+    const object = JSON.parse(json);
+    
+    return LogEntity.fromObject(object);
+  }
+
+  static fromObject(obj: Record<string, any>): LogEntity {
+    const validatedLog = LogEntity.validateLog(obj)
+    const newLog = new LogEntity(validatedLog);
     
     return newLog;
   }
