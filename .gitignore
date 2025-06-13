@@ -3,5 +3,7 @@
 /.vscode
 /logs
 /mongo_data
+/postgres_data
 
 .env
+/src/generated/prisma
