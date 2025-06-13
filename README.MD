@@ -18,12 +18,15 @@ Esta arquitectura modular facilita la escalabilidad, el mantenimiento y la integ
 # Instrucciones
 1. Clonar el archivo .env.template a .env
 2. Configurar las variables de entorno
-
+3. Instalar dependencias
 ```
-PORT=3000
-
-MAILER_EMAIL=consultas@noc.com
-MAILER_PASSWORD=your_password_here
-
-PROD=false
+pnpm i
+```
+4. Levantar las bases de datos con el comando
+```
+docker-compose up -d
+```
+5. Levantar el servidor con el comando
+```
+pnpm dev
 ```
