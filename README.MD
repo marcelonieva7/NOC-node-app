@@ -24,9 +24,13 @@ pnpm i
 ```
 4. Levantar las bases de datos con el comando
 ```
-docker-compose up -d
+docker compose up -d
 ```
-5. Levantar el servidor con el comando
+5. Realizar migraciones para PostgresSQL DB
+```
+pnpm exec prisma migrate dev
+```
+6. Levantar el servidor con el comando
 ```
 pnpm dev
 ```
