@@ -125,7 +125,7 @@ const config: Config = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: undefined,
+   rootDir: "test",
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: [
@@ -136,7 +136,7 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+   setupFiles: [ "<rootDir>/setupTest.ts" ],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
