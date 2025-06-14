@@ -3,7 +3,11 @@
 /.vscode
 /logs
 /mongo_data
+/mongo_data_test
 /postgres_data
+/postgres_data_test
+/src/generated/prisma
+/test/coverage
 
 .env
-/src/generated/prisma
+.env.test
