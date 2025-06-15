@@ -13,7 +13,8 @@
     "db:test:stop": "docker compose -f docker-compose.test.yml --env-file .env.test stop",
     "test": "pnpm db:test:start && jest && pnpm db:test:stop",
     "test:watch": "pnpm db:test:start && jest --watch && pnpm db:test:stop",
-    "test:coverage": "pnpm db:test:start && jest --coverage && pnpm db:test:stop"
+    "test:coverage": "pnpm db:test:start && jest --coverage && pnpm db:test:stop",
+    "open:coverage": "xdg-open coverage/lcov-report/index.html"
   },
   "keywords": [],
   "author": "",
