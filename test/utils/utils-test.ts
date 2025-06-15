@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { MongoDB } from "../src/infrastructure/database/mongo/init";
+import { MongoDB } from "../../src/infrastructure/database/mongo/init";
 
 export const MongoDBHelper =  {
   connect: async () => {

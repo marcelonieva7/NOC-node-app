@@ -1,6 +1,6 @@
 import { LogSecurityLevelEnum } from '../../../../../src/domain/entities/log.entity';
 import { LogModel } from '../../../../../src/infrastructure/database/mongo/models/log.model';
-import { MongoDBHelper } from '../../../../utils-test';
+import { MongoDBHelper } from '../../../../utils/utils-test';
 
 describe('log.model.ts', () => {
   beforeAll(async () => {
