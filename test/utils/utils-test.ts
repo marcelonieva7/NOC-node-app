@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { MongoDB } from "../../src/infrastructure/database/mongo/init";
+import type { LogRepository } from "../../src/domain/repositories/log.repository";
 
 export const MongoDBHelper =  {
   connect: async () => {
@@ -22,3 +23,8 @@ export const MongoDBHelper =  {
     await mongoose.disconnect();
   }
 }
+
+export const mockRepository: LogRepository = {
+  saveLog: jest.fn(),
+  getLogs: jest.fn()
+};
