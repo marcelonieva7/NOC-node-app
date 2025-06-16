@@ -1,5 +1,6 @@
 import { LogEntity, LogSecurityLevelEnum } from '../../../../src/domain/entities/log.entity';
 import { CheckService } from '../../../../src/domain/use-cases/checks/check-service';
+import { mockRepository } from '../../../utils/utils-test';
 
 describe('check-service.ts', () => {
   beforeEach(() => {
@@ -7,10 +8,6 @@ describe('check-service.ts', () => {
     jest.restoreAllMocks();
   })
 
-  const mockRepository = {
-    saveLog: jest.fn(),
-    getLogs: jest.fn()
-  };
   const mockSuccessCallback = jest.fn();
   const mockErrorCallback = jest.fn();
 
