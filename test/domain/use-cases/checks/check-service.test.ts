@@ -4,6 +4,7 @@ import { CheckService } from '../../../../src/domain/use-cases/checks/check-serv
 describe('check-service.ts', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   })
 
   const mockRepository = {
@@ -57,11 +58,6 @@ describe('check-service.ts', () => {
       ...errorLog,
       createdAt: expect.any(Date)
     }));
-    
-    expect(mockRepository.saveLog).toHaveBeenCalledWith(expect.objectContaining({
-      ...errorLog,
-      createdAt: expect.any(Date)
-    }));
     expect(mockErrorCallback).toHaveBeenCalled();
     expect(mockSuccessCallback).not.toHaveBeenCalled();
     expect(result).toBe(false);
@@ -82,9 +78,6 @@ describe('check-service.ts', () => {
     expect(mockSuccessCallback).not.toHaveBeenCalled();
     expect(mockRepository.saveLog).toHaveBeenCalledWith(
       expect.any(LogEntity)
-    );
-
-    fetchSpy.mockRestore();
-    
+    );    
   })
 });
