@@ -22,7 +22,9 @@ const config: Config = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: undefined,
+   collectCoverageFrom: [
+     "src/**/*.ts",
+   ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
@@ -31,6 +33,7 @@ const config: Config = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/test/utils/",
+    "/generated/prisma/"
   ],
 
   // Indicates which provider should be used to instrument code for coverage
