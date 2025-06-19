@@ -4,8 +4,6 @@ type CronExpression = string | Date;
 
 
 export class CronService {
-  constructor() {
-  }
 
   static createJob(
     cronExpression: CronExpression,
